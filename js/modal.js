@@ -17,4 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
   btn.addEventListener('click', openModal);
   close.addEventListener('click', closeModal);
   overlay.addEventListener('click', closeModal);
+
+  const copyrightYear = document.getElementById('copyright-year');
+  if (copyrightYear) {
+    copyrightYear.textContent = new Date().getFullYear();
+  }
 });

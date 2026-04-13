@@ -194,8 +194,48 @@ footer {
     font-size: 2rem;
     background: transparent;
     border: none;
+    color: #fff;
     cursor: pointer;
 }
+
+/* Contact form styles */
+.form-group {
+    margin-bottom: 1em;
+    text-align: left;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 0.2em;
+}
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.5em;
+    box-sizing: border-box;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: 2px dashed var(--accent-color);
+    border-color: var(--accent-color);
+}
+.submit-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: 1px solid var(--border-color);
+    padding: 0.5em 1em;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+    margin-top: 1em;
+}
+.submit-btn:hover,
+.submit-btn:focus {
+    background-color: #00a8e0;
+}
+
 [hidden] {
     display: none;
 }

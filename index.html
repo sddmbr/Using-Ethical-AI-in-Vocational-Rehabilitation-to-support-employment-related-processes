@@ -80,10 +80,25 @@ function openPage() {
     <div id="contactModal" class="contact-modal" role="dialog" aria-labelledby="contactTitle" hidden>
         <button id="closeModal" class="close-btn" aria-label="Close Contact Form">&times;</button>
         <h2 id="contactTitle">Contact Us</h2>
-        <p>Billy Belz</p>
-        <p>Phone: 214-912-0619</p>
-        <p>Email: Billy@vra11y.com</p>
-        <p>Discord: #ethical-ai</p>
+        <form id="contactForm" onsubmit="event.preventDefault(); alert('Form submitted'); closeModal();">
+            <div class="form-group">
+                <label for="contactName">Name</label>
+                <input type="text" id="contactName" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="contactEmail">Email</label>
+                <input type="email" id="contactEmail" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="contactSubject">Subject</label>
+                <input type="text" id="contactSubject" name="subject" required>
+            </div>
+            <div class="form-group">
+                <label for="contactMessage">Message</label>
+                <textarea id="contactMessage" name="message" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
     </div>
     <script src="js/modal.js"></script>
 </body>

@@ -57,9 +57,11 @@
 function openPage() {
   const input = document.getElementById('site-search').value.toLowerCase();
   const opts = document.getElementById('search-options').options;
-  for (let i = 0; i < opts.length; i++) {
-    if (opts[i].value.toLowerCase() === input) {
-      window.location.href = opts[i].dataset.href;
+  const len = opts.length;
+  for (let i = 0; i < len; i++) {
+    const opt = opts[i];
+    if (opt.value.toLowerCase() === input) {
+      window.location.href = opt.dataset.href;
       return;
     }
   }

@@ -54,16 +54,26 @@
   <button type="submit">Go</button>
 </form>
 <script>
+let searchOptionsMap = null;
+
 function openPage() {
-  const input = document.getElementById('site-search').value.toLowerCase();
-  const opts = document.getElementById('search-options').options;
-  for (let i = 0; i < opts.length; i++) {
-    if (opts[i].value.toLowerCase() === input) {
-      window.location.href = opts[i].dataset.href;
-      return;
+  if (!searchOptionsMap) {
+    searchOptionsMap = new Map();
+    const opts = document.getElementById('search-options').options;
+    const len = opts.length;
+    for (let i = 0; i < len; i++) {
+      searchOptionsMap.set(opts[i].value.toLowerCase(), opts[i].dataset.href);
     }
   }
-  alert('Page not found');
+
+  const input = document.getElementById('site-search').value.toLowerCase();
+  const targetHref = searchOptionsMap.get(input);
+
+  if (targetHref) {
+    window.location.href = targetHref;
+  } else {
+    alert('Page not found');
+  }
 }
 </script>
         <section class="chat-ai">

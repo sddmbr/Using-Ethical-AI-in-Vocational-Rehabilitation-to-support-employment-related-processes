@@ -1,0 +1,24 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "A comprehensive, community-driven website dedicated to exploring, documenting, and sharing best practices around the ethical use of artificial intelligence within the field of vocational rehabilitation. This repository contains both the source code for the website and the content (articles, case studies, guidelines, accessibility resources) necessary to create a living knowledge base for practitioners, policy makers, researchers, and developers interested in how AI can—and should—be applied ethically when helping people with disabilities return to or enter the workforce.",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sddmbr/Using-Ethical-AI-in-Vocational-Rehabilitation-to-support-employment-related-processes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sddmbr/Using-Ethical-AI-in-Vocational-Rehabilitation-to-support-employment-related-processes/issues"
+  },
+  "homepage": "https://github.com/sddmbr/Using-Ethical-AI-in-Vocational-Rehabilitation-to-support-employment-related-processes#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.60.0"
+  }
+}

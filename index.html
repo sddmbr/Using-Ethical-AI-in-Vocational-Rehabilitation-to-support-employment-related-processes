@@ -57,7 +57,8 @@
 function openPage() {
   const input = document.getElementById('site-search').value.toLowerCase();
   const opts = document.getElementById('search-options').options;
-  for (let i = 0; i < opts.length; i++) {
+  const len = opts.length;
+  for (let i = 0; i < len; i++) {
     if (opts[i].value.toLowerCase() === input) {
       window.location.href = opts[i].dataset.href;
       return;

@@ -1,0 +1,12 @@
+{
+  "name": "ethical-ai-vr",
+  "version": "1.0.0",
+  "description": "Ethical AI in Vocational Rehabilitation",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -57,9 +57,28 @@
 function openPage() {
   const input = document.getElementById('site-search').value.toLowerCase();
   const opts = document.getElementById('search-options').options;
-  for (let i = 0; i < opts.length; i++) {
+  const len = opts.length;
+
+  const allowedPages = [
+    'intro.html',
+    'ethics.html',
+    'accessibility.html',
+    'case-studies.html',
+    'policy.html',
+    'technical.html',
+    'community.html',
+    'ethical-ai-documentation.html',
+    'chatgpt.html'
+  ];
+
+  for (let i = 0; i < len; i++) {
     if (opts[i].value.toLowerCase() === input) {
-      window.location.href = opts[i].dataset.href;
+      const target = opts[i].dataset.href;
+      if (allowedPages.includes(target)) {
+        window.location.href = target;
+      } else {
+        alert('Invalid page destination');
+      }
       return;
     }
   }

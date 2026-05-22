@@ -1,0 +1,9 @@
+{
+  "name": "ethical-ai-vocational-rehabilitation",
+  "version": "1.0.0",
+  "description": "Ethical AI in Vocational Rehabilitation website",
+  "main": "js/modal.js",
+  "scripts": {
+    "test": "jest"
+  }
+}

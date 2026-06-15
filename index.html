@@ -62,7 +62,7 @@ function openPage() {
     const opts = document.getElementById('search-options').options;
     const len = opts.length;
     for (let i = 0; i < len; i++) {
-      searchOptionsMap.set(opts[i].value.toLowerCase(), opts[i].dataset.href);
+      searchOptionsMap.set(opts[i].value.toLowerCase(), opts[i].getAttribute('data-href'));
     }
   }
 

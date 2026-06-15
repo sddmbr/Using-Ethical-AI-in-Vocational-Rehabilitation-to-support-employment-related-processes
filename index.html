@@ -55,11 +55,29 @@
 </form>
 <script>
 function openPage() {
+  const ALLOWED_PAGES = [
+    'accessibility.html',
+    'case-studies.html',
+    'chatgpt.html',
+    'community.html',
+    'ethical-ai-documentation.html',
+    'ethics.html',
+    'index.html',
+    'intro.html',
+    'policy.html',
+    'technical.html'
+  ];
   const input = document.getElementById('site-search').value.toLowerCase();
   const opts = document.getElementById('search-options').options;
   for (let i = 0; i < opts.length; i++) {
     if (opts[i].value.toLowerCase() === input) {
-      window.location.href = opts[i].dataset.href;
+      const target = opts[i].dataset.href;
+      if (ALLOWED_PAGES.includes(target)) {
+        window.location.href = target;
+      } else {
+        console.error('Security alert: Blocked redirect to non-whitelisted page:', target);
+        alert('Invalid page selection');
+      }
       return;
     }
   }

@@ -5,5 +5,8 @@
   "main": "js/modal.js",
   "scripts": {
     "test": "jest"
+  },
+  "dependencies": {
+    "playwright": "^1.60.0"
   }
 }

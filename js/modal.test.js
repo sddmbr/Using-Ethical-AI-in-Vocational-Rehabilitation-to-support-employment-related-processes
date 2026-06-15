@@ -103,4 +103,10 @@ describe('modal logic', () => {
     require('./modal.js');
     expect(() => domContentLoadedCallback()).not.toThrow();
   });
+
+  test('should not crash if copyright-year element is missing', () => {
+    elements['copyright-year'] = null;
+    require('./modal.js');
+    expect(() => domContentLoadedCallback()).not.toThrow();
+  });
 });

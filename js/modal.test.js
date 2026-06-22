@@ -103,4 +103,13 @@ describe('modal logic', () => {
     require('./modal.js');
     expect(() => domContentLoadedCallback()).not.toThrow();
   });
+
+  test('should not crash if only copyright-year is missing', () => {
+    mockDocument.getElementById.mockImplementation((id) => {
+      if (id === 'copyright-year') return null;
+      return elements[id];
+    });
+    require('./modal.js');
+    expect(() => domContentLoadedCallback()).not.toThrow();
+  });
 });

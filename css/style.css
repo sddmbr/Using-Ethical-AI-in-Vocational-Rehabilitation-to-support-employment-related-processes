@@ -16,10 +16,6 @@ body {
     color: var(--text-primary);
 }
 
-body.home {
-    background: var(--bg-primary);
-}
-
 /* Skip link styles for improved keyboard navigation */
 .skip-link {
     position: absolute;

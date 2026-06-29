@@ -60,7 +60,8 @@ function openPage() {
   if (!searchOptionsMap) {
     searchOptionsMap = new Map();
     const opts = document.getElementById('search-options').options;
-    for (const opt of opts) {
+    for (let i = 0, len = opts.length; i < len; i++) {
+      const opt = opts[i];
       searchOptionsMap.set(opt.value.toLowerCase(), opt.getAttribute('data-href'));
     }
   }

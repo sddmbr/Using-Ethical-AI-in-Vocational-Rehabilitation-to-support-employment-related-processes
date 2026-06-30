@@ -112,4 +112,18 @@ describe('modal logic', () => {
     require('./modal.js');
     expect(() => domContentLoadedCallback()).not.toThrow();
   });
+
+  test.each([
+    'contactBtn',
+    'contactModal',
+    'modalOverlay',
+    'closeModal'
+  ])('should not crash if %s element is missing', (missingElementId) => {
+    mockDocument.getElementById.mockImplementation((id) => {
+      if (id === missingElementId) return null;
+      return elements[id];
+    });
+    require('./modal.js');
+    expect(() => domContentLoadedCallback()).not.toThrow();
+  });
 });

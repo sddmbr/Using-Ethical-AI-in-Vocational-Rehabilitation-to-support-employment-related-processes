@@ -53,28 +53,7 @@
   </datalist>
   <button type="submit">Go</button>
 </form>
-<script>
-let searchOptionsMap = null;
-
-function openPage() {
-  if (!searchOptionsMap) {
-    searchOptionsMap = new Map();
-    const opts = document.getElementById('search-options').options;
-    for (const opt of opts) {
-      searchOptionsMap.set(opt.value.toLowerCase(), opt.getAttribute('data-href'));
-    }
-  }
-
-  const input = document.getElementById('site-search').value.toLowerCase();
-  const targetHref = searchOptionsMap.get(input);
-
-  if (targetHref) {
-    window.location.href = targetHref;
-  } else {
-    alert('Page not found');
-  }
-}
-</script>
+<script src="js/search.js"></script>
         <section class="chat-ai">
             <img src="robot.svg" alt="Futuristic robot" class="chat-ai-img">
             <p><a href="https://chat.openai.com/" target="_blank" rel="noopener noreferrer">Chat with AI</a></p>

@@ -37,6 +37,12 @@ describe('modal logic', () => {
     };
 
     mockDocument = {
+      body: {
+        insertAdjacentHTML: jest.fn((position, html) => {
+          // In a real DOM, this would add elements to the body.
+          // For our mock, we just need the function to exist so it doesn't crash.
+        })
+      },
       getElementById: jest.fn((id) => elements[id]),
       addEventListener: jest.fn((event, cb) => {
         if (event === 'DOMContentLoaded') domContentLoadedCallback = cb;

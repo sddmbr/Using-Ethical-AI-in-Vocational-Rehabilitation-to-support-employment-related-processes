@@ -61,4 +61,24 @@ describe('openPage function', () => {
     expect(navigateMock).toHaveBeenCalledWith('ethics.html');
     expect(window.alert).not.toHaveBeenCalled();
   });
+
+  it('caches search options and does not query the DOM for them on subsequent calls', () => {
+    const getElementByIdSpy = jest.spyOn(document, 'getElementById');
+
+    document.getElementById('site-search').value = 'Introduction';
+    openPage();
+
+    const searchOptionsCallsFirst = getElementByIdSpy.mock.calls.filter(args => args[0] === 'search-options');
+    expect(searchOptionsCallsFirst.length).toBe(1);
+
+    getElementByIdSpy.mockClear();
+
+    document.getElementById('site-search').value = 'Ethical Principles';
+    openPage();
+
+    const searchOptionsCallsSecond = getElementByIdSpy.mock.calls.filter(args => args[0] === 'search-options');
+    expect(searchOptionsCallsSecond.length).toBe(0);
+
+    getElementByIdSpy.mockRestore();
+  });
 });

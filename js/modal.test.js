@@ -40,7 +40,10 @@ describe('modal logic', () => {
       getElementById: jest.fn((id) => elements[id]),
       addEventListener: jest.fn((event, cb) => {
         if (event === 'DOMContentLoaded') domContentLoadedCallback = cb;
-      })
+      }),
+      body: {
+        insertAdjacentHTML: jest.fn()
+      }
     };
 
     mockWindow = {

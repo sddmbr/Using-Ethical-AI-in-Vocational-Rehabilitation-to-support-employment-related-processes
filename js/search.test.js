@@ -61,4 +61,9 @@ describe('openPage function', () => {
     expect(navigateMock).toHaveBeenCalledWith('ethics.html');
     expect(window.alert).not.toHaveBeenCalled();
   });
+
+  it('throws an error if the site-search element is missing', () => {
+    document.getElementById('site-search').remove();
+    expect(() => openPage()).toThrow(TypeError);
+  });
 });

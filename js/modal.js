@@ -19,6 +19,15 @@ document.addEventListener('DOMContentLoaded', () => {
     overlay.addEventListener('click', closeModal);
   }
 
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      alert('Form submitted');
+      document.getElementById('closeModal').click();
+    });
+  }
+
   const copyrightYear = document.getElementById('copyright-year');
   if (copyrightYear) {
     copyrightYear.textContent = new Date().getFullYear();

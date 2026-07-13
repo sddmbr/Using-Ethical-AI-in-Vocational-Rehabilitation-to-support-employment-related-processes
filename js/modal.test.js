@@ -29,9 +29,16 @@ describe('modal logic', () => {
       closeModal: {
         id: 'closeModal',
         addEventListener: jest.fn((event, cb) => {
-          if (event === 'click') elements.closeModal.click = cb;
+          if (event === 'click') elements.closeModal.clickEvent = cb;
         }),
-        focus: jest.fn()
+        focus: jest.fn(),
+        click: jest.fn()
+      },
+      contactForm: {
+        id: 'contactForm',
+        addEventListener: jest.fn((event, cb) => {
+          if (event === 'submit') elements.contactForm.submit = cb;
+        })
       },
       'copyright-year': { textContent: '' }
     };
@@ -45,11 +52,13 @@ describe('modal logic', () => {
 
     mockWindow = {
       document: mockDocument,
-      Event: function(type) { this.type = type; }
+      Event: function(type) { this.type = type; },
+      alert: jest.fn()
     };
 
     global.document = mockDocument;
     global.window = mockWindow;
+    global.alert = mockWindow.alert;
 
     const mockDate = new Date('2024-01-01');
     global.Date = class extends originalDate {
@@ -83,7 +92,7 @@ describe('modal logic', () => {
     expect(elements.closeModal.focus).toHaveBeenCalled();
 
     // Close via close button
-    elements.closeModal.click();
+    elements.closeModal.clickEvent();
     expect(elements.contactModal.hidden).toBe(true);
     expect(elements.modalOverlay.hidden).toBe(true);
     expect(elements.contactBtn.focus).toHaveBeenCalled();
@@ -125,5 +134,20 @@ describe('modal logic', () => {
     });
     require('./modal.js');
     expect(() => domContentLoadedCallback()).not.toThrow();
+  });
+
+  test('should handle form submission', () => {
+    require('./modal.js');
+    domContentLoadedCallback();
+
+    const mockEvent = {
+      preventDefault: jest.fn()
+    };
+
+    elements.contactForm.submit(mockEvent);
+
+    expect(mockEvent.preventDefault).toHaveBeenCalled();
+    expect(global.alert).toHaveBeenCalledWith('Form submitted');
+    expect(elements.closeModal.click).toHaveBeenCalled();
   });
 });

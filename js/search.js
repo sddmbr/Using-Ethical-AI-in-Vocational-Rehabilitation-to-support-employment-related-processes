@@ -14,11 +14,14 @@ function openPage() {
   const input = document.getElementById('site-search').value.toLowerCase();
   const targetHref = searchOptionsMap.get(input);
 
+  const errorEl = document.getElementById('search-error');
+
   if (targetHref) {
+    if (errorEl) errorEl.hidden = true;
     // Navigate (indirected for easier testing)
     globalActions.navigate(targetHref);
   } else {
-    alert('Page not found');
+    if (errorEl) errorEl.hidden = false;
   }
 }
 

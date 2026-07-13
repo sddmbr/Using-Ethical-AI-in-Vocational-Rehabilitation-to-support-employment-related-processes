@@ -251,3 +251,10 @@ footer {
         width: 90vw;
     }
 }
+
+/* Search Error styles */
+.search-error {
+    color: #ff4d4d;
+    margin-top: 0.5em;
+    font-weight: bold;
+}

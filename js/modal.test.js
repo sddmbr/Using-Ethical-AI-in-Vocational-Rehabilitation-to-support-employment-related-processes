@@ -29,9 +29,22 @@ describe('modal logic', () => {
       closeModal: {
         id: 'closeModal',
         addEventListener: jest.fn((event, cb) => {
-          if (event === 'click') elements.closeModal.click = cb;
+          if (event === 'click') {
+            elements.closeModal.clickCallback = cb;
+          }
         }),
-        focus: jest.fn()
+        focus: jest.fn(),
+        click: jest.fn(() => {
+          if (elements.closeModal.clickCallback) {
+            elements.closeModal.clickCallback();
+          }
+        })
+      },
+      contactForm: {
+        id: 'contactForm',
+        addEventListener: jest.fn((event, cb) => {
+          if (event === 'submit') elements.contactForm.submit = cb;
+        })
       },
       'copyright-year': { textContent: '' }
     };
@@ -83,7 +96,7 @@ describe('modal logic', () => {
     expect(elements.closeModal.focus).toHaveBeenCalled();
 
     // Close via close button
-    elements.closeModal.click();
+    elements.closeModal.clickCallback();
     expect(elements.contactModal.hidden).toBe(true);
     expect(elements.modalOverlay.hidden).toBe(true);
     expect(elements.contactBtn.focus).toHaveBeenCalled();
@@ -96,6 +109,20 @@ describe('modal logic', () => {
     expect(elements.contactModal.hidden).toBe(true);
     expect(elements.modalOverlay.hidden).toBe(true);
     expect(elements.contactBtn.focus).toHaveBeenCalled();
+  });
+
+  test('should handle form submission', () => {
+    require('./modal.js');
+    domContentLoadedCallback();
+
+    global.alert = jest.fn();
+    const preventDefault = jest.fn();
+
+    elements.contactForm.submit({ preventDefault });
+
+    expect(preventDefault).toHaveBeenCalled();
+    expect(global.alert).toHaveBeenCalledWith('Form submitted');
+    expect(elements.closeModal.click).toHaveBeenCalled();
   });
 
   test('should not crash if elements are missing', () => {

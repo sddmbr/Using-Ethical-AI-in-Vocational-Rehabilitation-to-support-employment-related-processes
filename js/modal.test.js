@@ -37,10 +37,16 @@ describe('modal logic', () => {
     };
 
     mockDocument = {
-      getElementById: jest.fn((id) => elements[id]),
+      getElementById: jest.fn((id) => {
+        if (id === 'modalOverlay' && mockDocument.body.insertAdjacentHTML.mock.calls.length === 0) {
+            return null; // simulate it not existing initially
+        }
+        return elements[id];
+      }),
       addEventListener: jest.fn((event, cb) => {
         if (event === 'DOMContentLoaded') domContentLoadedCallback = cb;
-      })
+      }),
+      body: { insertAdjacentHTML: jest.fn() }
     };
 
     mockWindow = {
@@ -72,9 +78,11 @@ describe('modal logic', () => {
     expect(elements['copyright-year'].textContent).toBe(2024);
   });
 
-  test('should open and close modal', () => {
+  test('should inject modal HTML and open and close modal', () => {
     require('./modal.js');
     domContentLoadedCallback();
+
+    expect(mockDocument.body.insertAdjacentHTML).toHaveBeenCalledWith('beforeend', expect.any(String));
 
     // Open
     elements.contactBtn.click();

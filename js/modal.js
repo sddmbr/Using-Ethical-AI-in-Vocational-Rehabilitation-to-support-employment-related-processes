@@ -3,6 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const modal = document.getElementById('contactModal');
   const overlay = document.getElementById('modalOverlay');
   const close = document.getElementById('closeModal');
+  const copyrightYear = document.getElementById('copyright-year');
+  if (copyrightYear) {
+    copyrightYear.textContent = new Date().getFullYear();
+  }
+
   if (!btn || !modal || !overlay || !close) return;
   function openModal() {
     overlay.hidden = false;
@@ -18,8 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
   close.addEventListener('click', closeModal);
   overlay.addEventListener('click', closeModal);
 
-  const copyrightYear = document.getElementById('copyright-year');
-  if (copyrightYear) {
-    copyrightYear.textContent = new Date().getFullYear();
+  const form = document.getElementById('contactForm');
+  if (form) {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      alert('Form submitted');
+      closeModal();
+    });
   }
 });

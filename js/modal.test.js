@@ -37,6 +37,9 @@ describe('modal logic', () => {
     };
 
     mockDocument = {
+      body: {
+        insertAdjacentHTML: jest.fn()
+      },
       getElementById: jest.fn((id) => elements[id]),
       addEventListener: jest.fn((event, cb) => {
         if (event === 'DOMContentLoaded') domContentLoadedCallback = cb;
@@ -125,5 +128,15 @@ describe('modal logic', () => {
     });
     require('./modal.js');
     expect(() => domContentLoadedCallback()).not.toThrow();
+  });
+
+  test('should inject modal if missing', () => {
+    mockDocument.getElementById.mockImplementation((id) => {
+        if (id === 'modalOverlay') return null;
+        return elements[id];
+    });
+    require('./modal.js');
+    domContentLoadedCallback();
+    expect(mockDocument.body.insertAdjacentHTML).toHaveBeenCalledWith('beforeend', expect.any(String));
   });
 });

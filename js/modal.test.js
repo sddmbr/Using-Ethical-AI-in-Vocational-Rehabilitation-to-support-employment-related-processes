@@ -38,6 +38,9 @@ describe('modal logic', () => {
 
     mockDocument = {
       getElementById: jest.fn((id) => elements[id]),
+      body: {
+        insertAdjacentHTML: jest.fn()
+      },
       addEventListener: jest.fn((event, cb) => {
         if (event === 'DOMContentLoaded') domContentLoadedCallback = cb;
       })

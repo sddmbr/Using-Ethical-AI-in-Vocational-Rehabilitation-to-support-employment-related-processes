@@ -33,6 +33,12 @@ describe('modal logic', () => {
         }),
         focus: jest.fn()
       },
+      contactForm: {
+        id: 'contactForm',
+        addEventListener: jest.fn((event, cb) => {
+          if (event === 'submit') elements.contactForm.submit = cb;
+        })
+      },
       'copyright-year': { textContent: '' }
     };
 
@@ -62,6 +68,7 @@ describe('modal logic', () => {
     delete global.document;
     delete global.window;
     global.Date = originalDate;
+    jest.restoreAllMocks();
   });
 
   test('should initialize and update copyright year', () => {
@@ -96,6 +103,34 @@ describe('modal logic', () => {
     expect(elements.contactModal.hidden).toBe(true);
     expect(elements.modalOverlay.hidden).toBe(true);
     expect(elements.contactBtn.focus).toHaveBeenCalled();
+  });
+
+  test('should handle form submission and close modal', () => {
+    const originalAlert = global.alert;
+    global.alert = jest.fn();
+
+    require('./modal.js');
+    domContentLoadedCallback();
+
+    // Open modal first to ensure state changes
+    elements.contactBtn.click();
+    expect(elements.contactModal.hidden).toBe(false);
+
+    // Mock event
+    const mockEvent = {
+      preventDefault: jest.fn()
+    };
+
+    // Trigger submit
+    elements.contactForm.submit(mockEvent);
+
+    expect(mockEvent.preventDefault).toHaveBeenCalled();
+    expect(global.alert).toHaveBeenCalledWith('Form submitted');
+    expect(elements.contactModal.hidden).toBe(true);
+    expect(elements.modalOverlay.hidden).toBe(true);
+    expect(elements.contactBtn.focus).toHaveBeenCalled();
+
+    global.alert = originalAlert;
   });
 
   test('should not crash if elements are missing', () => {

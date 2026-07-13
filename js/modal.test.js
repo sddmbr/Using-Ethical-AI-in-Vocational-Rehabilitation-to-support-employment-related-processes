@@ -40,7 +40,26 @@ describe('modal logic', () => {
       getElementById: jest.fn((id) => elements[id]),
       addEventListener: jest.fn((event, cb) => {
         if (event === 'DOMContentLoaded') domContentLoadedCallback = cb;
-      })
+      }),
+      body: {
+        insertAdjacentHTML: jest.fn((position, html) => {
+          elements['contactModal'] = { id: 'contactModal', hidden: true };
+          elements['modalOverlay'] = {
+            id: 'modalOverlay',
+            hidden: true,
+            addEventListener: jest.fn((event, cb) => {
+              if (event === 'click') elements.modalOverlay.click = cb;
+            })
+          };
+          elements['closeModal'] = {
+            id: 'closeModal',
+            addEventListener: jest.fn((event, cb) => {
+              if (event === 'click') elements.closeModal.click = cb;
+            }),
+            focus: jest.fn()
+          };
+        })
+      }
     };
 
     mockWindow = {

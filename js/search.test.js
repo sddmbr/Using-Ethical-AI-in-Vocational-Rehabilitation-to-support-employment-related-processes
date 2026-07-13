@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-const { openPage, __resetSearchOptionsMap, globalActions } = require('./search.js');
+const { openPage, __resetSearchOptionsMap, __resetSearchInput, globalActions } = require('./search.js');
 
 describe('openPage function', () => {
   let originalAlert;
@@ -25,6 +25,7 @@ describe('openPage function', () => {
 
   beforeEach(() => {
     __resetSearchOptionsMap();
+    __resetSearchInput();
     window.alert.mockClear();
     navigateMock.mockClear();
 

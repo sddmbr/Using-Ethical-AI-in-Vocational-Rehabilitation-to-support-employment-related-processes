@@ -1,4 +1,5 @@
 let searchOptionsMap = null;
+let searchInput = null;
 
 function openPage() {
   if (!searchOptionsMap) {
@@ -11,7 +12,11 @@ function openPage() {
     }
   }
 
-  const input = document.getElementById('site-search').value.toLowerCase();
+  if (!searchInput) {
+    searchInput = document.getElementById('site-search');
+  }
+
+  const input = searchInput.value.toLowerCase();
   const targetHref = searchOptionsMap.get(input);
 
   if (targetHref) {
@@ -34,6 +39,7 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     openPage,
     __resetSearchOptionsMap: () => searchOptionsMap = null,
+    __resetSearchInput: () => searchInput = null,
     globalActions // Exported so it can be mocked
   };
 }

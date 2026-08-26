@@ -33,6 +33,12 @@ describe('modal logic', () => {
         }),
         focus: jest.fn()
       },
+      contactForm: {
+        id: 'contactForm',
+        addEventListener: jest.fn((event, cb) => {
+          if (event === 'submit') elements.contactForm.submit = cb;
+        })
+      },
       'copyright-year': { textContent: '' }
     };
 
@@ -45,6 +51,7 @@ describe('modal logic', () => {
 
     mockWindow = {
       document: mockDocument,
+      alert: jest.fn(),
       Event: function(type) { this.type = type; }
     };
 
@@ -93,6 +100,26 @@ describe('modal logic', () => {
 
     // Close via overlay
     elements.modalOverlay.click();
+    expect(elements.contactModal.hidden).toBe(true);
+    expect(elements.modalOverlay.hidden).toBe(true);
+    expect(elements.contactBtn.focus).toHaveBeenCalled();
+  });
+
+  test('should handle contact form submission', () => {
+    require('./modal.js');
+    domContentLoadedCallback();
+
+    // Open modal to set initial state
+    elements.contactBtn.click();
+
+    // Simulate form submission
+    const mockEvent = { preventDefault: jest.fn() };
+    elements.contactForm.submit(mockEvent);
+
+    expect(mockEvent.preventDefault).toHaveBeenCalled();
+    expect(mockWindow.alert).toHaveBeenCalledWith('Form submitted');
+
+    // Form submission should also close the modal
     expect(elements.contactModal.hidden).toBe(true);
     expect(elements.modalOverlay.hidden).toBe(true);
     expect(elements.contactBtn.focus).toHaveBeenCalled();

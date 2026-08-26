@@ -31,10 +31,19 @@ describe('modal logic', () => {
         addEventListener: jest.fn((event, cb) => {
           if (event === 'click') elements.closeModal.click = cb;
         }),
-        focus: jest.fn()
+        focus: jest.fn(),
+        click: jest.fn()
+      },
+      contactForm: {
+        id: 'contactForm',
+        addEventListener: jest.fn((event, cb) => {
+          if (event === 'submit') elements.contactForm.submit = cb;
+        })
       },
       'copyright-year': { textContent: '' }
     };
+
+    global.alert = jest.fn();
 
     mockDocument = {
       getElementById: jest.fn((id) => elements[id]),
@@ -96,6 +105,23 @@ describe('modal logic', () => {
     expect(elements.contactModal.hidden).toBe(true);
     expect(elements.modalOverlay.hidden).toBe(true);
     expect(elements.contactBtn.focus).toHaveBeenCalled();
+  });
+
+  test('should handle form submission', () => {
+    require('./modal.js');
+    domContentLoadedCallback();
+
+    // First open the modal so we can test if it closes
+    elements.contactBtn.click();
+    expect(elements.contactModal.hidden).toBe(false);
+
+    const mockEvent = { preventDefault: jest.fn() };
+    elements.contactForm.submit(mockEvent);
+
+    expect(mockEvent.preventDefault).toHaveBeenCalled();
+    expect(global.alert).toHaveBeenCalledWith('Form submitted');
+    // The form submission should programmatically click the close button, hiding the modal
+    expect(elements.contactModal.hidden).toBe(true);
   });
 
   test('should not crash if elements are missing', () => {

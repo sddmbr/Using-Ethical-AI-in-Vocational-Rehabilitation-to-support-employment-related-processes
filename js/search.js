@@ -1,5 +1,15 @@
 let searchOptionsMap = null;
 
+document.addEventListener('DOMContentLoaded', () => {
+  const searchForm = document.getElementById('search-form');
+  if (searchForm) {
+    searchForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      openPage();
+    });
+  }
+});
+
 function openPage() {
   if (!searchOptionsMap) {
     searchOptionsMap = new Map();

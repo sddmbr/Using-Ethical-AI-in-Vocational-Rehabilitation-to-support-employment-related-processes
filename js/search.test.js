@@ -29,7 +29,7 @@ describe('openPage function', () => {
     navigateMock.mockClear();
 
     document.body.innerHTML = `
-      <form onsubmit="openPage(); return false;">
+      <form id="search-form">
         <label for="site-search">Search the site:</label>
         <input type="search" id="site-search" list="search-options" placeholder="Search pages" />
         <datalist id="search-options">

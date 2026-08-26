@@ -33,6 +33,12 @@ describe('modal logic', () => {
         }),
         focus: jest.fn()
       },
+      contactForm: {
+        id: 'contactForm',
+        addEventListener: jest.fn((event, cb) => {
+          if (event === 'submit') elements.contactForm.submit = cb;
+        })
+      },
       'copyright-year': { textContent: '' }
     };
 
@@ -48,8 +54,9 @@ describe('modal logic', () => {
       Event: function(type) { this.type = type; }
     };
 
-    global.document = mockDocument;
     global.window = mockWindow;
+    global.document = mockDocument;
+    global.alert = jest.fn();
 
     const mockDate = new Date('2024-01-01');
     global.Date = class extends originalDate {
@@ -113,11 +120,27 @@ describe('modal logic', () => {
     expect(() => domContentLoadedCallback()).not.toThrow();
   });
 
+  test('should handle form submission', () => {
+    require('./modal.js');
+    domContentLoadedCallback();
+
+    const preventDefault = jest.fn();
+    elements.contactForm.submit({ preventDefault });
+
+    expect(preventDefault).toHaveBeenCalled();
+    expect(global.alert).toHaveBeenCalledWith('Form submitted');
+    // It should also close the modal
+    expect(elements.contactModal.hidden).toBe(true);
+    expect(elements.modalOverlay.hidden).toBe(true);
+    expect(elements.contactBtn.focus).toHaveBeenCalled();
+  });
+
   test.each([
     'contactBtn',
     'contactModal',
     'modalOverlay',
-    'closeModal'
+    'closeModal',
+    'contactForm'
   ])('should not crash if %s element is missing', (missingElementId) => {
     mockDocument.getElementById.mockImplementation((id) => {
       if (id === missingElementId) return null;

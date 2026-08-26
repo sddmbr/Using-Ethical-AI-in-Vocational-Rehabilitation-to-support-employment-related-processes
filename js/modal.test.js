@@ -33,6 +33,12 @@ describe('modal logic', () => {
         }),
         focus: jest.fn()
       },
+      contactForm: {
+        id: 'contactForm',
+        addEventListener: jest.fn((event, cb) => {
+          if (event === 'submit') elements.contactForm.submit = cb;
+        })
+      },
       'copyright-year': { textContent: '' }
     };
 
@@ -62,6 +68,26 @@ describe('modal logic', () => {
     delete global.document;
     delete global.window;
     global.Date = originalDate;
+    if (global.alert) delete global.alert;
+  });
+
+  test('should submit contact form and close modal', () => {
+    global.alert = jest.fn();
+    require('./modal.js');
+    domContentLoadedCallback();
+
+    // Open modal first to set up the expected state
+    elements.contactBtn.click();
+
+    // Trigger submit
+    const preventDefault = jest.fn();
+    elements.contactForm.submit({ preventDefault });
+
+    expect(preventDefault).toHaveBeenCalled();
+    expect(global.alert).toHaveBeenCalledWith('Form submitted');
+    expect(elements.contactModal.hidden).toBe(true);
+    expect(elements.modalOverlay.hidden).toBe(true);
+    expect(elements.contactBtn.focus).toHaveBeenCalled();
   });
 
   test('should initialize and update copyright year', () => {

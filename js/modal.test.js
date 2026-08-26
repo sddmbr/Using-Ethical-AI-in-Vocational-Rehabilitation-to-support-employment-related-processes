@@ -33,8 +33,16 @@ describe('modal logic', () => {
         }),
         focus: jest.fn()
       },
+      contactForm: {
+        id: 'contactForm',
+        addEventListener: jest.fn((event, cb) => {
+          if (event === 'submit') elements.contactForm.submit = cb;
+        })
+      },
       'copyright-year': { textContent: '' }
     };
+
+    global.alert = jest.fn();
 
     mockDocument = {
       getElementById: jest.fn((id) => elements[id]),
@@ -61,6 +69,7 @@ describe('modal logic', () => {
   afterEach(() => {
     delete global.document;
     delete global.window;
+    delete global.alert;
     global.Date = originalDate;
   });
 
@@ -98,6 +107,23 @@ describe('modal logic', () => {
     expect(elements.contactBtn.focus).toHaveBeenCalled();
   });
 
+  test('should submit form and close modal', () => {
+    require('./modal.js');
+    domContentLoadedCallback();
+
+    elements.contactBtn.click();
+    expect(elements.contactModal.hidden).toBe(false);
+
+    const mockEvent = { preventDefault: jest.fn() };
+    elements.contactForm.submit(mockEvent);
+
+    expect(mockEvent.preventDefault).toHaveBeenCalled();
+    expect(global.alert).toHaveBeenCalledWith('Form submitted');
+    expect(elements.contactModal.hidden).toBe(true);
+    expect(elements.modalOverlay.hidden).toBe(true);
+    expect(elements.contactBtn.focus).toHaveBeenCalled();
+  });
+
   test('should not crash if elements are missing', () => {
     mockDocument.getElementById.mockReturnValue(null);
     require('./modal.js');
@@ -117,7 +143,8 @@ describe('modal logic', () => {
     'contactBtn',
     'contactModal',
     'modalOverlay',
-    'closeModal'
+    'closeModal',
+    'contactForm'
   ])('should not crash if %s element is missing', (missingElementId) => {
     mockDocument.getElementById.mockImplementation((id) => {
       if (id === missingElementId) return null;

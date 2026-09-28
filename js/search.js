@@ -4,9 +4,7 @@ function openPage() {
   if (!searchOptionsMap) {
     searchOptionsMap = new Map();
     const opts = document.getElementById('search-options').options;
-    const len = opts.length;
-    for (let i = 0; i < len; i++) {
-      const opt = opts[i];
+    for (const opt of opts) {
       searchOptionsMap.set(opt.value.toLowerCase(), opt.getAttribute('data-href'));
     }
   }

@@ -152,4 +152,22 @@ describe('modal logic', () => {
     require('./modal.js');
     expect(() => domContentLoadedCallback()).not.toThrow();
   });
+
+  test('should not crash on form submission if closeModal is missing', () => {
+    mockDocument.getElementById.mockImplementation((id) => {
+      if (id === 'closeModal') return null;
+      return elements[id];
+    });
+    require('./modal.js');
+    domContentLoadedCallback();
+
+    const mockEvent = { preventDefault: jest.fn() };
+
+    // Attempting to submit the form should not throw an error
+    expect(() => elements.contactForm.submit(mockEvent)).not.toThrow();
+
+    // Verify that the regular form submission logic still ran
+    expect(mockEvent.preventDefault).toHaveBeenCalled();
+    expect(global.alert).toHaveBeenCalledWith('Form submitted');
+  });
 });
